@@ -30,7 +30,7 @@ import java.util.Locale;
 /**
  * Servlet implementation class FbChat
  */
-@WebServlet("/Webhook")
+@WebServlet("/webhook")
 public class FbChat extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
