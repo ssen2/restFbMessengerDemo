@@ -35,7 +35,7 @@ public class FbChat extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	//FB Access Token
-	private String pageAccessToken = "EAAFwL7TqfoIBAAuZAZAZC8ZCnxqtTGMAxOLq1alJaiwM8tV0wSr7u5zooCCiiSsp7jcCekcuJydpzkahCDemguvglAydk9R7JPbIHLAjFhPEVRj43BN3hms6hNJIlJDXabOqRrJJx4uTentKo1hdlVgiCd92xIFDI10UQilknHc6tFzx65Vi";
+	private String pageAccessToken = "EAAqSWIWP7Q4BAIPBBilK07rcnA2mEWZCNh6hAeD1VvkGqb5Erooz26vtz2gurnqew1wpmmLudVAVJFH8DZCKfZCSZCj5Usyz5RBfLuRQMgR4xvVRVKGLqkO97minNzw7YAJYq88R9RTViFbtLhNNaMJA05UedZAqMMZAj1I3ZACMZAu62TzOhxrJ";
 	
 	//URL verification
 	private String verifyToken = "AnyString";
