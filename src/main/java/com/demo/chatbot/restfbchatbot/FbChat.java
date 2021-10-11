@@ -121,7 +121,7 @@ public class FbChat extends HttpServlet {
 	
 	void sendMessage(IdMessageRecipient recipient, Message message){
 		// create a version 2.6 client
-		FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_9_0);
+		FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.LATEST);
 
 		SendResponse resp = pageClient.publish("me/messages", SendResponse.class,
 				Parameter.with("recipient", recipient), // the id or phone recipient
@@ -136,7 +136,7 @@ public class FbChat extends HttpServlet {
 		CallToAction getStartedPayload = new CallToAction(payload);
 
 		// we assume there's already a FacebookClient
-		FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_9_0);
+		FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.LATEST);
 		JsonObject response = pageClient.publish("me/messenger_profile", 
 		     JsonObject.class, // the returned result as JsonObject
 			 Parameter.with("get_started", getStartedPayload));
@@ -151,7 +151,7 @@ public class FbChat extends HttpServlet {
 		Greeting usLocaleGreetingText= new Greeting(Locale.US, "Timeless apparel for the masses.");
 
 		// we assume there's already a FacebookClient
-		FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.VERSION_9_0);
+		FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.LATEST);
 		
 		JsonObject response = pageClient.publish("me/messenger_profile", 
 		     JsonObject.class, // the returned result as JsonObject
