@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.restfb.DefaultFacebookClient;
 import com.restfb.DefaultJsonMapper;
 import com.restfb.FacebookClient;
@@ -35,10 +37,10 @@ public class FbChat extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	//FB Access Token
-	private String pageAccessToken = "EAAqSWIWP7Q4BAIPBBilK07rcnA2mEWZCNh6hAeD1VvkGqb5Erooz26vtz2gurnqew1wpmmLudVAVJFH8DZCKfZCSZCj5Usyz5RBfLuRQMgR4xvVRVKGLqkO97minNzw7YAJYq88R9RTViFbtLhNNaMJA05UedZAqMMZAj1I3ZACMZAu62TzOhxrJ";
+	//private String pageAccessToken = "EAAqSWIWP7Q4BAIPBBilK07rcnA2mEWZCNh6hAeD1VvkGqb5Erooz26vtz2gurnqew1wpmmLudVAVJFH8DZCKfZCSZCj5Usyz5RBfLuRQMgR4xvVRVKGLqkO97minNzw7YAJYq88R9RTViFbtLhNNaMJA05UedZAqMMZAj1I3ZACMZAu62TzOhxrJ";
 	
 	//URL verification
-	private String verifyToken = "AnyString";
+	//private String verifyToken = "AnyString";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,6 +48,14 @@ public class FbChat extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    @Value("${BOT_VERIFY_TOKEN}")
+	private String fbVerifyToken;
+    
+    @Value("${PAGE_ACCESS_TOKEN}")
+	private String pageAccessToken;
+   // public abstract String getFbVerifyToken();
+    
+    //public abstract String getPageAccessToken();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -61,7 +71,10 @@ public class FbChat extends HttpServlet {
 		System.out.println("mode :"+mode);
 		System.out.println("hubChallenge :"+hubChallenge);
 		
-		if("subscribe".equals(mode) && verifyToken.equalsIgnoreCase(hubToken)){
+		System.out.println("verify token "+fbVerifyToken);
+		System.out.println("page token "+pageAccessToken);
+		
+		if("subscribe".equals(mode) && fbVerifyToken.equalsIgnoreCase(hubToken)){
 			System.out.println("hub token matched");
 			response.getWriter().write(hubChallenge);
 			response.getWriter().flush();

@@ -1,15 +1,31 @@
 package com.demo.chatbot.restfbchatbot;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class ChatTest extends FbChat{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6775440041261733563L;
 	
+	@Value("${BOT_VERIFY_TOKEN}")
+	private String fbVerifyToken;
+	
+	@Value("${PAGE_ACCESS_TOKEN}")
+	private String pageAccessToken;
+	
+	/*@Override
+	public String getFbVerifyToken() {
+		System.out.println("fbVerifyToken "+fbVerifyToken);
+		return fbVerifyToken;
+	}
+
+	@Override
+	public String getPageAccessToken() {
+		System.out.println("pageAccessToken "+pageAccessToken);
+		return pageAccessToken;
+	}*/
+
 	public void init() {
         setGetStartedButton("hi");
        /* setGreetingText(new Payload[]{new Payload().setLocale("default").setText("JBot is a Java Framework to help" +
