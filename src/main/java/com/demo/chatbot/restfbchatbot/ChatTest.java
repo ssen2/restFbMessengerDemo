@@ -28,9 +28,7 @@ public class ChatTest extends FbChat{
 
 	public void init() {
         setGetStartedButton("hi");
-       /* setGreetingText(new Payload[]{new Payload().setLocale("default").setText("JBot is a Java Framework to help" +
-                " developers make Facebook, and Slack bots easily. You can see a quick demo by clicking " +
-                "the \"Get Started\" button or just typing \"Hi\".")}); */
+       //setGreetingText(new Payload[]{new Payload().setLocale("default").setText("hi there!")});
         setGreetingsText();
     }
 	
@@ -41,7 +39,7 @@ public class ChatTest extends FbChat{
                 new Button().setContentType("text").setTitle("Sure").setPayload("yes"),
                 new Button().setContentType("text").setTitle("Nope").setPayload("no")
         };
-        reply(event, new Message().setText("Hello, I am JBot. Would you like to see more?").setQuickReplies(quickReplies));
+        reply(event, new Message().setText("Hello. Would you like to see more?").setQuickReplies(quickReplies));
     } */
 
 
