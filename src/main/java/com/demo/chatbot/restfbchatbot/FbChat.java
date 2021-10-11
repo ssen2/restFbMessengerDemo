@@ -52,10 +52,15 @@ public class FbChat extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("doGet called");
 		String hubToken = request.getParameter("hub.verify_token");
 		String hubChallenge = request.getParameter("hub.challenge");
 		
+		System.out.println("hubToken :"+hubToken);
+		System.out.println("hubChallenge :"+hubChallenge);
+		
 		if(verifyToken.equalsIgnoreCase(hubToken)){
+			System.out.println("hub token matched");
 			response.getWriter().write(hubChallenge);
 			response.getWriter().flush();
 			response.getWriter().close();
