@@ -98,13 +98,16 @@ public class FbChat extends HttpServlet {
 		WebhookObject webhookObject = mapper.toJavaObject(sb.toString(), WebhookObject.class);
 		
 		for(WebhookEntry entry : webhookObject.getEntryList()){
+			System.out.println("webhook object list size :"+webhookObject.getEntryList().size());
 			if(entry.getMessaging() != null){
+				System.out.println("webhook entry detail :"+entry);
 				for(MessagingItem mItem : entry.getMessaging()){
 					
 					String senderId = mItem.getSender().getId();
 					System.out.println("senderId in doPost:"+senderId);
 					System.out.println("mItem.getMessage() :"+mItem.getMessage());
-					System.out.println("mItem.getMessage().getText() :"+mItem.getMessage().getText());
+					if(mItem.getMessage() != null)
+						System.out.println("mItem.getMessage().getText() :"+mItem.getMessage().getText());
 					System.out.println("mItem.getRecipient() :"+mItem.getRecipient());
 					IdMessageRecipient recipient = new IdMessageRecipient(senderId);
 					
