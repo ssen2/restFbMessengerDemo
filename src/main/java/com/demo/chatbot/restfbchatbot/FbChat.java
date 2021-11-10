@@ -119,7 +119,7 @@ public class FbChat extends HttpServlet {
 		}
 	}
 	
-	void sendMessage(IdMessageRecipient recipient, Message message){
+	public void sendMessage(IdMessageRecipient recipient, Message message){
 		// create a version 2.6 client
 		FacebookClient pageClient = new DefaultFacebookClient(pageAccessToken, Version.LATEST);
 
