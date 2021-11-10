@@ -36,11 +36,6 @@ import java.util.Locale;
 public class FbChat extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	//FB Access Token
-	//private String pageAccessToken = "EAAqSWIWP7Q4BAIPBBilK07rcnA2mEWZCNh6hAeD1VvkGqb5Erooz26vtz2gurnqew1wpmmLudVAVJFH8DZCKfZCSZCj5Usyz5RBfLuRQMgR4xvVRVKGLqkO97minNzw7YAJYq88R9RTViFbtLhNNaMJA05UedZAqMMZAj1I3ZACMZAu62TzOhxrJ";
-	
-	//URL verification
-	//private String verifyToken = "AnyString";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -48,15 +43,16 @@ public class FbChat extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-    @Value("${BOT_VERIFY_TOKEN}")
+    /*@Value("${BOT_VERIFY_TOKEN}")
 	private String fbVerifyToken;
     
     @Value("${PAGE_ACCESS_TOKEN}")
-	private String pageAccessToken;
+	private String pageAccessToken; */
    // public abstract String getFbVerifyToken();
     
     //public abstract String getPageAccessToken();
-
+    private String fbVerifyToken = System.getenv("BOT_VERIFY_TOKEN");
+    private String pageAccessToken = System.getenv("PAGE_ACCESS_TOKEN");
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -72,7 +68,7 @@ public class FbChat extends HttpServlet {
 		System.out.println("hubChallenge :"+hubChallenge);
 		
 		System.out.println("verify token "+fbVerifyToken);
-		System.out.println("page token "+pageAccessToken);
+		//System.out.println("page token "+pageAccessToken);
 		
 		if("subscribe".equals(mode) && fbVerifyToken.equalsIgnoreCase(hubToken)){
 			System.out.println("hub token matched");
@@ -111,7 +107,7 @@ public class FbChat extends HttpServlet {
 					
 					if(mItem.getMessage() != null && mItem.getMessage().getText() != null){
 						System.out.println("message Payload :"+mItem.getMessage().getText());
-						sendMessage(recipient, new Message("Hi there!"));
+						sendMessage(recipient, new Message("Hi there!!"));
 					}
 				}
 				
