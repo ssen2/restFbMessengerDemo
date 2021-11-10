@@ -107,6 +107,7 @@ public class FbChat extends HttpServlet {
 					
 					if(mItem.getMessage() != null && mItem.getMessage().getText() != null){
 						System.out.println("message Payload :"+mItem.getMessage().getText());
+						System.out.println("verify token "+fbVerifyToken);
 						sendMessage(recipient, new Message("Hi there!!"));
 					}
 				}
