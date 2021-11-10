@@ -103,6 +103,9 @@ public class FbChat extends HttpServlet {
 					
 					String senderId = mItem.getSender().getId();
 					System.out.println("senderId in doPost:"+senderId);
+					System.out.println("mItem.getMessage() :"+mItem.getMessage());
+					System.out.println("mItem.getMessage().getText() :"+mItem.getMessage().getText());
+					System.out.println("mItem.getRecipient() :"+mItem.getRecipient());
 					IdMessageRecipient recipient = new IdMessageRecipient(senderId);
 					
 					if(mItem.getMessage() != null && mItem.getMessage().getText() != null){
