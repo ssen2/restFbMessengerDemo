@@ -67,7 +67,7 @@ public class FbChat extends HttpServlet {
 		System.out.println("mode :"+mode);
 		System.out.println("hubChallenge :"+hubChallenge);
 		
-		System.out.println("verify token "+fbVerifyToken);
+		System.out.println("verify token check"+fbVerifyToken);
 		//System.out.println("page token "+pageAccessToken);
 		
 		if("subscribe".equals(mode) && fbVerifyToken.equalsIgnoreCase(hubToken)){
@@ -113,7 +113,7 @@ public class FbChat extends HttpServlet {
 					
 					if(mItem.getMessage() != null && mItem.getMessage().getText() != null){
 						System.out.println("message Payload :"+mItem.getMessage().getText());
-						System.out.println("verify token "+fbVerifyToken);
+						System.out.println("verify token check :"+fbVerifyToken);
 						sendMessage(recipient, new Message("Hi there! This is Bot. How can I help you?"));
 					}
 				}
