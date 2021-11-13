@@ -23,7 +23,7 @@ public class WelcomeServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		out.println("<h3>Hello India!</h3>");
+		out.println("<h3>Hi there! Welcome to a simple demo chatbot app!</h3>");
 	}
 
 }
