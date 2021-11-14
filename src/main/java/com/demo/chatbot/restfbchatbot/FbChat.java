@@ -102,7 +102,9 @@ public class FbChat extends HttpServlet {
 					
 					String senderId = mItem.getSender().getId();
 					System.out.println("senderId in doPost:"+senderId);
+					System.out.println("Recipient in doPost:"+mItem.getRecipient().getId());
 					System.out.println("mItem.getMessage() :"+mItem.getMessage());
+					System.out.println("mItem.getItem() :"+mItem.getItem());
 					if(mItem.getMessage() != null)
 						System.out.println("mItem.getMessage().getText() :"+mItem.getMessage().getText());
 					System.out.println("mItem.getRecipient() :"+mItem.getRecipient());
