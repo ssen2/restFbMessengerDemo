@@ -95,7 +95,7 @@ public class FbChat extends HttpServlet {
 		WebhookObject webhookObject = mapper.toJavaObject(sb.toString(), WebhookObject.class);
 		
 		for(WebhookEntry entry : webhookObject.getEntryList()){
-			System.out.println("webhook object list size :"+webhookObject.getEntryList().size());
+			System.out.println("webhook object list size@@ :"+webhookObject.getEntryList().size());
 			if(entry.getMessaging() != null){
 				System.out.println("webhook entry detail :"+entry);
 				for(MessagingItem mItem : entry.getMessaging()){
