@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
+
 import com.restfb.DefaultFacebookClient;
 import com.restfb.DefaultJsonMapper;
 import com.restfb.FacebookClient;
@@ -48,9 +51,17 @@ public class FbChat extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-  
+    //Below two lines are used when reading config values from heroku server
     private String fbVerifyToken = System.getenv("BOT_VERIFY_TOKEN");
-    private String pageAccessToken = System.getenv("PAGE_ACCESS_TOKEN");
+    private String pageAccessToken = System.getenv("PAGE_ACCESS_TOKEN"); 
+    
+    //below two lines are used currently as app is reading the values from properties file as it is running in localhost
+   /* @Value("${BOT_VERIFY_TOKEN}")
+	private String fbVerifyToken;
+    
+    @Value("${PAGE_ACCESS_TOKEN}")
+	private String pageAccessToken;*/
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -95,93 +106,99 @@ public class FbChat extends HttpServlet {
 		WebhookObject webhookObject = mapper.toJavaObject(sb.toString(), WebhookObject.class);
 		
 		for(WebhookEntry entry : webhookObject.getEntryList()){
-			System.out.println("webhook object list size@@ :"+webhookObject.getEntryList().size());
+			System.out.println("webhook object list size :"+webhookObject.getEntryList().size());
 			if(entry.getMessaging() != null){
 				System.out.println("webhook entry detail :"+entry);
-				for(MessagingItem mItem : entry.getMessaging()){
-					
-					String senderId = mItem.getSender().getId();
-					System.out.println("senderId in doPost:"+senderId);
-					System.out.println("Recipient in doPost:"+mItem.getRecipient().getId());
-					System.out.println("mItem.getMessage() :"+mItem.getMessage());
-					System.out.println("mItem.getItem() :"+mItem.getItem());
-					if(mItem.getMessage() != null)
-						System.out.println("mItem.getMessage().getText() :"+mItem.getMessage().getText());
-					System.out.println("mItem.getRecipient() :"+mItem.getRecipient());
-					IdMessageRecipient recipient = new IdMessageRecipient(senderId);
-					
-					// Check if the event is a message or postback and
-					  // pass the event to the appropriate handler function
-					  if (mItem.isMessage()) {
-						  handleMessage(recipient, mItem.getMessage());        
-					  } else if (mItem.isPostback()) {
-						  handlePostback(recipient, mItem.getPostback());
-					  }
-					
-					/*if(mItem.getMessage() != null && mItem.getMessage().getText() != null){
-						System.out.println("message Payload :"+mItem.getMessage().getText());
-						System.out.println("verify token check :"+fbVerifyToken);
-						sendMessage(recipient, new Message("Hi there! This is Bot. How can I help you?"));
-					}*/
+				for (MessagingItem mItem : entry.getMessaging()) {
+					String senderId=null;
+					if (mItem != null) {
+						if(mItem.getSender() != null){
+							senderId = mItem.getSender().getId();
+							System.out.println("senderId in doPost:" + senderId);
+						}
+						System.out.println("Recipient in doPost:" + mItem.getRecipient().getId());
+						System.out.println("mItem.getMessage() :" + mItem.getMessage());
+						System.out.println("mItem.getItem() :" + mItem.getItem());
+						if (mItem.getMessage() != null)
+							System.out.println("mItem.getMessage().getText() :" + mItem.getMessage().getText());
+						System.out.println("mItem.getRecipient() :" + mItem.getRecipient());
+						IdMessageRecipient recipient = new IdMessageRecipient(senderId);
+
+						// Check if the event is a message or postback and
+						// pass the event to the appropriate handler function
+						if (mItem.isMessage()) {
+							handleMessage(recipient, mItem.getMessage());
+						} else if (mItem.isPostback()) {
+							handlePostback(recipient, mItem.getPostback());
+						}
+
+						
+						/* if(mItem.getMessage() != null && mItem.getMessage().getText() != null){
+								System.out.println("message Payload :"+mItem.getMessage().getText()); System.out.println("verify token check :"+fbVerifyToken);
+						 		sendMessage(recipient, new Message("Hi there! This is Bot. How can I help you?")); }
+						 */
+					}
 				}
 				
 			}
 		}
 	}
 	
-	public void handleMessage(IdMessageRecipient recipient, MessageItem message){
+	private void handleMessage(IdMessageRecipient recipient, MessageItem message){
 		System.out.println("Entered: handleMessage()");
 		
 		Message response = null;
 		
-		if(message.getText() != null){
-			//Message simpleTextMessage = new Message("Just a simple text");
-			response = new Message("You sent the message: "+message.getText() +" Now send me an attachment");
-			//sendMessage(recipient, new Message("Hi there! This is Bot. How can I help you?"));
-		}else if(message.getAttachments() != null){
-			// Gets the URL of the message attachment
-		    String attachment_url = message.getAttachments().get(0).getPayload().getUrl();
-		    
-		    //Below code is for simple media attachment
-		    /*MediaAttachment image = new MediaAttachment(MediaAttachment.Type.IMAGE, attachment_url);
-		    Message imageMessage = new Message(image); */
-		    
-		    GenericTemplatePayload payload = new GenericTemplatePayload();
-		    //Create a bubble with a web button
-			Bubble firstBubble = new Bubble("Is this the right picture?");
-			firstBubble.setSubtitle("Tap a button to answer");
-			WebButton webButton = new WebButton("EXAMPLE TITLE", attachment_url);
-			firstBubble.addButton(webButton);
-		    
-			// Create a bubble with two postback buttons
-			Bubble secondBubble = new Bubble("Title of second bubble");
-			PostbackButton postbackButtonYes = new PostbackButton("Yes!", "yes");
-			secondBubble.addButton(postbackButtonYes);
-			
-			PostbackButton postbackButtonNo = new PostbackButton("No!", "no");
-			secondBubble.addButton(postbackButtonNo);
+		if(message!= null){
+			if(message.getText() != null){
+				//Message simpleTextMessage = new Message("Just a simple text");
+				response = new Message("You sent the message: "+message.getText() +" Now send me an attachment");
+				//sendMessage(recipient, new Message("Hi there! This is Bot. How can I help you?"));
+			}else if(message.getAttachments() != null){
+				// Gets the URL of the message attachment
+			    String attachment_url = message.getAttachments().get(0).getPayload().getUrl();
+			    
+			    //Below code is for simple media attachment
+			    /*MediaAttachment image = new MediaAttachment(MediaAttachment.Type.IMAGE, attachment_url);
+			    Message imageMessage = new Message(image); */
+			    
+			    GenericTemplatePayload payload = new GenericTemplatePayload();
+			    //Create a bubble with a web button
+				Bubble firstBubble = new Bubble("Is this the right picture?");
+				firstBubble.setSubtitle("Tap a button to answer");
+				WebButton webButton = new WebButton("EXAMPLE TITLE", attachment_url);
+				firstBubble.addButton(webButton);
+			    
+				// Create a bubble with two postback buttons
+				Bubble secondBubble = new Bubble("Title of second bubble");
+				PostbackButton postbackButtonYes = new PostbackButton("Yes!", "yes");
+				secondBubble.addButton(postbackButtonYes);
+				
+				PostbackButton postbackButtonNo = new PostbackButton("No!", "no");
+				secondBubble.addButton(postbackButtonNo);
 
-			payload.addBubble(firstBubble);
-			payload.addBubble(secondBubble);
+				payload.addBubble(firstBubble);
+				payload.addBubble(secondBubble);
 
-			TemplateAttachment templateAttachment = new TemplateAttachment(payload);
-			//Message imageMessage = new Message(templateAttachment); 
-			response = new Message(templateAttachment); 
+				TemplateAttachment templateAttachment = new TemplateAttachment(payload);
+				//Message imageMessage = new Message(templateAttachment); 
+				response = new Message(templateAttachment); 
+			}
 		}
 		
 		callSendAPI(recipient, response);
 	}
 	
-	public void handlePostback(IdMessageRecipient recipient, PostbackItem postbackItem){
+	private void handlePostback(IdMessageRecipient recipient, PostbackItem postbackItem){
 		  System.out.println("Entered: handlePostback()");
 		  //Get the payload for the postback
 		  String payload = postbackItem.getPayload();
 		  
 		  Message response = null;
 		  // Set the response based on the postback payload
-		  if (payload == "yes") {
+		  if (payload.equalsIgnoreCase("yes")) {
 		    response = new Message("Thanks!");
-		  } else if (payload == "no") {
+		  } else if (payload.equalsIgnoreCase("no")) {
 		    response = new Message("Oops, try sending another image.");
 		  }
 		  // Send the message to acknowledge the postback
